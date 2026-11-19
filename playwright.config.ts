@@ -28,7 +28,7 @@ export default defineConfig({
     baseURL: 'https://practicesoftwaretesting.com/',
     trace: 'on-first-retry',
     launchOptions: {
-      slowMo: 10000,   // espera 1 segundo (1000 ms) entre cada acción
+      slowMo: 1000,   // espera 1 segundo (1000 ms) entre cada acción
     },
 
   },

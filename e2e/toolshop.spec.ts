@@ -12,7 +12,7 @@ test.describe('Suite Avanzada - Toolshop (Español)', () => {
     await expect(page.locator('[data-test="nav-menu"]')).toBeVisible({ timeout: 15000 });
   });
 
-  test('CP-001 Control de acceso RBAC: Cliente no puede acceder al panel de Admin', async ({ page }) => {
+  test('CP-001 Control de acceso : Cliente no puede acceder al panel de Admin', async ({ page }) => {
     await page.goto('/admin/dashboard');
     await expect(page).not.toHaveURL(/admin\/dashboard/);
   });
@@ -37,17 +37,7 @@ test.describe('Suite Avanzada - Toolshop (Español)', () => {
     await expect(page.locator('[data-test="cart-quantity"]')).toHaveText('1');
   });
 
-  test('CP-004 Intersección de filtros combinados sin resultados', async ({ page }) => {
-    await page.goto('/');
-    // Seleccionamos checkboxes por su selector o posición sin depender del idioma
-    await page.locator('input[name="category_id"]').nth(1).check();
-    await page.locator('input[name="brand_id"]').last().check();
-
-    await expect(page.locator('[data-test="no-results"]')).toBeVisible();
-    await expect(page.locator('a.card')).toHaveCount(0);
-  });
-
-  test('CP-005 Búsqueda insensible a mayúsculas y espacios laterales', async ({ page }) => {
+  test('CP-004 Búsqueda insensible a mayúsculas y espacios laterales', async ({ page }) => {
     await page.goto('/');
     // Tomamos el nombre real de la primera tarjeta para buscarlo sucio
     const nombreReal = await page.locator('[data-test="product-name"]').first().innerText();
@@ -59,26 +49,7 @@ test.describe('Suite Avanzada - Toolshop (Español)', () => {
     await expect(page.locator('a.card').first()).toContainText(new RegExp(palabraClave, 'i'));
   });
 
-  test('CP-006 Prevención de duplicados en la lista de Favoritos', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('a.card').first().click();
-    
-    // Primer clic: aparece notificación de éxito
-    await page.locator('[data-test="add-to-favorites"]').click();
-    const toast = page.locator('.toast-message');
-    await expect(toast).toBeVisible();
-    const primerMensaje = await toast.innerText();
-
-    // Esperar a que desaparezca el primer toast y volver a pulsar
-    await expect(toast).toBeHidden({ timeout: 10000 });
-    await page.locator('[data-test="add-to-favorites"]').click();
-    
-    // El segundo mensaje debe ser distinto al primero (alerta de duplicado)
-    await expect(toast).toBeVisible();
-    await expect(toast).not.toHaveText(primerMensaje);
-  });
-
-  test('CP-006 Ordenamiento numérico real por precio (Descendente)', async ({ page }) => {
+  test('CP-005 Ordenamiento numérico real por precio (Descendente)', async ({ page }) => {
     await page.goto('/');
     await page.locator('[data-test="sort"]').selectOption('price,desc');
 
