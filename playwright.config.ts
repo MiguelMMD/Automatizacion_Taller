@@ -27,6 +27,10 @@ export default defineConfig({
   use: {
     baseURL: 'https://practicesoftwaretesting.com/',
     trace: 'on-first-retry',
+    launchOptions: {
+      slowMo: 10000,   // espera 1 segundo (1000 ms) entre cada acción
+    },
+
   },
 
 
@@ -37,15 +41,15 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {
